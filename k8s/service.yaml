@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-app
+spec:
+  selector:
+    app: python-app
+  ports:
+    - protocol: TCP
+      port: 8080 #Port of the service - request from browser will hit this port
+      targetPort: 5000 # This is the port within the container where app is exposed
