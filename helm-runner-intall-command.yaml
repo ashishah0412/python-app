@@ -6,3 +6,7 @@ helm upgrade --install --namespace actions-runner-system --create-namespace\
   --set=authSecret.create=true\
   --set=authSecret.github_token="<paste-your-git-hub-access-token-between-quotes>"\
   --wait actions-runner-controller actions-runner-controller/actions-runner-controller
+
+  #Command to apply the and create the self-hosted runner using the runnerdeployment.yaml file
+  # in the namespace - actions-runner-system
+  kubectl -n actions-runner-system apply -f runnerdeployment.yaml
