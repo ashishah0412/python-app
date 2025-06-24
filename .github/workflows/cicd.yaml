@@ -34,14 +34,29 @@ jobs:
     needs: ci
     runs-on: self-hosted
     steps:
+       - uses actions/checkout/@v3
+         
+       - name: Modify Values yaml
+         shell: bash
+         run: |
+          echo '${{needs.ci.outputs.commit_id}}'
+          pip install yq
+          yq -Yi '.image.tag = "${{needs.ci.outputs.commit_id}}"' charts/python-app/values.yaml
+
+       - name: Commit Changes 
+         uses: EndBug/add-and-commit@v9
+         with: 
+          message: "values.yaml updated with the new commit Id ${{needs.ci.outputs.commit_id}}" 
+
+
        - name: Install Argocd
          shell: bash
          run: |
           VERSION=$(curl -L -s https://raw.githubusercontent.com/argoproj/argo-cd/stable/VERSION)
           curl -ksSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/download/v$VERSION/argocd-linux-amd64
           sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-          rm argocd-linux-amd64
-          
+          rm argocd-linux-amd64    
+
        - name: Argocd App Sync
          shell: bash
          run: |
