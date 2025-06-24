@@ -1,0 +1,8 @@
+Git Repo used for establishing the self hosted runner: 
+https://github.com/actions/actions-runner-controller/blob/master/docs/quickstart.md
+
+
+helm upgrade --install --namespace actions-runner-system --create-namespace\
+  --set=authSecret.create=true\
+  --set=authSecret.github_token="<paste-your-git-hub-access-token-between-quotes>"\
+  --wait actions-runner-controller actions-runner-controller/actions-runner-controller
